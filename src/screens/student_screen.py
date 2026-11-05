@@ -5,9 +5,11 @@ from src.components.footer import footer_dashboard
 from PIL import Image
 import numpy as np
 from src.pipelines.face_pipeline import predict_attendence, get_face_embeddings, train_classifier
-from src.database.db import get_all_students, create_student
+from src.database.db import get_all_students, create_student, unenroll_student_to_subject, get_student_subjects, get_student_attendance
 import time
 from src.pipelines.voice_pipeline import get_voice_embedding
+from src.components.dialog_enroll import enroll_dialog
+from src.components.subject_card import subject_card
 
 def student_dashboard():
     student_data = st.session_state.student_data
@@ -23,7 +25,7 @@ def student_dashboard():
             st.rerun()
 
 
-    """ st.space()
+    st.space()
 
     c1, c2 =st.columns(2)
     with c1:
@@ -61,6 +63,7 @@ def student_dashboard():
 
 
         stats = stats_map.get(sid,{"total":0, "attended": 0} )
+        
         def unenroll_button():
                 if st.button("Unenroll from tihs course", type='tertiary', width='stretch', icon=':material/delete_forever:'):
                     unenroll_student_to_subject(student_id, sid)
@@ -78,7 +81,7 @@ def student_dashboard():
                     ('✅', 'Attended', stats['attended']),
                 ],
                 footer_callback=unenroll_button
-            ) """
+            )
     footer_dashboard()
 
 
